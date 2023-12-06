@@ -1,3 +1,6 @@
+import org.gradle.internal.classpath.Instrumented.systemProperty
+import org.springframework.boot.gradle.tasks.run.BootRun
+
 plugins {
     java
     id("org.springframework.boot") version "3.1.5"
@@ -70,4 +73,8 @@ tasks.withType<Test> {
 
 tasks.bootBuildImage {
     builder.set("paketobuildpacks/builder-jammy-base:latest")
+}
+
+tasks.bootRun {
+    systemProperty("KEY", findProperty("KEY") ?: "default")
 }
