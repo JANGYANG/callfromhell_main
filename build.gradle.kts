@@ -42,6 +42,7 @@ dependencies {
 
     implementation("org.apache.camel:camel-jetty-starter:3.0.0-M4")
     testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
+    testImplementation("junit:junit:4.13.1")
     compileOnly("org.projectlombok:lombok")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     runtimeOnly("org.postgresql:postgresql")

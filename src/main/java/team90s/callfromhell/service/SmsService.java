@@ -8,21 +8,40 @@ import org.springframework.stereotype.Service;
 @Service
 public class SmsService {
 
-    @Value("twilio.user.name")
+    @Value("${twilio.user.name}")
     String twilioUserName;
 
-    @Value("twilio.user.pw")
+    @Value("${twilio.user.pw}")
     String twilioPw;
 
-    public void SendSms(String phoneNum){
+    @Value("${twilio.user.phone}")
+    String phoneNumFrom;
+
+    public Message sendSms(String phoneNumTo, String content){
 
         Twilio.init(twilioUserName, twilioPw);
 
         Message message = Message.creator(
-                        new com.twilio.type.PhoneNumber(phoneNum),
-                        new com.twilio.type.PhoneNumber(phoneNum),
-                        "SMS TEST")
+                        new com.twilio.type.PhoneNumber(phoneNumTo),
+                        new com.twilio.type.PhoneNumber(phoneNumFrom),
+                        content)
                 .create();
+
+        return message;
+    }
+
+
+    public Message sendSms(String phoneNumTo, String phoneNumFrom, String content){
+
+        Twilio.init(twilioUserName, twilioPw);
+
+        Message message = Message.creator(
+                        new com.twilio.type.PhoneNumber(phoneNumTo),
+                        new com.twilio.type.PhoneNumber(phoneNumFrom),
+                        content)
+                .create();
+
+        return message;
     }
 
 
