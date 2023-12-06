@@ -10,6 +10,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Data
 @NoArgsConstructor
@@ -27,6 +28,9 @@ public class Wakeup {
 
     @Column
     private String phoneNumTo;
+
+    @Column
+    private LocalDateTime wakeupTime;
 
     @Builder.Default
     @Column(name = "successYn", columnDefinition = "boolean default false")

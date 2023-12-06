@@ -9,6 +9,7 @@ import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 import team90s.callfromhell.dto.MessageDto;
 import team90s.callfromhell.dto.WakeupDto;
+import team90s.callfromhell.entity.Member;
 import team90s.callfromhell.entity.Wakeup;
 import team90s.callfromhell.repository.MemberRepository;
 import team90s.callfromhell.repository.WakeupRepository;
@@ -25,11 +26,20 @@ public class WakeupService {
     private final MemberRepository memberRepository;
 
     private final ActiveMqService activeMqService;
+    private final SmsService smsService;
+    private final MemberService memberService;
 
     public void wakeupStart(WakeupDto wakeupDto){
         log.info("wakeupStart CALLED");
 
-        Wakeup wakeup = wakeupRepository.save(Wakeup.builder().wakeupId(wakeupDto.getWakeupId()).member(memberRepository.getReferenceById(wakeupDto.getMemberId())).phoneNumTo(wakeupDto.getPhoneNmTo()).build());
+        Wakeup wakeup = Wakeup.builder()
+                .wakeupId(wakeupDto.getWakeupId())
+                .wakeupTime(wakeupDto.getWakeupTime())
+                .member(memberRepository.getReferenceById(wakeupDto.getMemberId()))
+                .phoneNumTo(wakeupDto.getPhoneNmTo())
+                .build();
+
+        wakeupRepository.save(wakeup);
         log.info("DB SAVED {}", wakeup);
 
         activeMqService.sendWakeup(wakeupDto);
@@ -52,6 +62,33 @@ public class WakeupService {
             wakeupRepository.save(Wakeup.builder().wakeupId(wakeupDto.getWakeupId()).successYn(true).phoneNumTo(wakeupDto.getPhoneNmTo()).member(memberRepository.getReferenceById(wakeupDto.getMemberId())).build());
         }
 
+    }
+
+
+    @JmsListener(destination = "${activemq.queue.name}", selector = "")
+    public void receiveMessage(WakeupDto wakeupDto) {
+        log.info("Queue is Received. Data is [{}]",wakeupDto);
+        checkWakeupSuccess(wakeupDto);
+    }
+
+    public void checkWakeupSuccess(WakeupDto wakeupDto){
+
+        Optional<Wakeup> searchResult = wakeupRepository.findById(wakeupDto.getWakeupId());
+
+        if(searchResult.isPresent() && searchResult.get().getSuccessYn()){
+
+            log.info("Mission Success. SMS is not sent. Data is [{}]", wakeupDto);
+
+        }else{
+            log.info("Mission Failed. SMS will be sent. Data is [{}]", wakeupDto);
+
+            Member member = memberService.getMemberById(wakeupDto.getMemberId());
+
+            String content = String.format("This is from %s %s. Wakeup Time is %s",member.getLastNm(), member.getFirstNm(), wakeupDto.getWakeupTime().toString());
+
+            smsService.sendSms(wakeupDto.getPhoneNmTo(), content);
+            log.info("SMS is sent. Content is [{}]", content);
+        }
     }
 
 }

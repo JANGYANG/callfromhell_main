@@ -65,28 +65,6 @@ public class ActiveMqService {
 
     }
 
-    @JmsListener(destination = "${activemq.queue.name}", selector = "")
-    public void receiveMessage(WakeupDto wakeupDto) {
-
-        log.info("Queue is Received. Data is [{}]",wakeupDto);
-
-        Optional<Wakeup> searchResult = wakeupRepository.findById(wakeupDto.getWakeupId());
-
-        if(searchResult.isPresent() && searchResult.get().getSuccessYn()){
-
-            log.info("Mission Success. SMS is not sent. Data is [{}]", wakeupDto);
-
-        }else{
-            log.info("Mission Failed. SMS will be sent. Data is [{}]", wakeupDto);
-
-            Member member = memberService.getMemberById(wakeupDto.getMemberId());
-
-            String content = "This is from " + member.getLastNm() +" "+ member.getFirstNm();
-
-            smsService.sendSms(wakeupDto.getPhoneNmTo(), content);
-        }
-
-    }
 
 
 }
