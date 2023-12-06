@@ -19,8 +19,11 @@ public class Member {
 
     @Id
     @GeneratedValue
-    @Column()
     private Long memberId;
+
+    @Column(nullable = true)
+    private String email;
+
 
     @Column(nullable = false)
     private String firstNm;

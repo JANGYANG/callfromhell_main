@@ -33,12 +33,15 @@ dependencies {
     implementation("com.twilio.sdk:twilio:9.14.1")
     implementation("org.springframework.boot:spring-boot-starter-test")
 
+    //jackson
+    implementation("com.fasterxml.jackson.core:jackson-core:2.16.0")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.16.0")
 
     // logging
-    testImplementation("org.apache.logging.log4j:log4j-slf4j2-impl")
+    implementation("org.springframework.boot:spring-boot-starter-log4j2")
     implementation("org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16")
-    implementation("org.apache.logging.log4j:log4j-core:2.22.0")
-    implementation("org.apache.logging.log4j:log4j-api:2.22.0")
+
+
 
     implementation("org.apache.camel:camel-jetty-starter:3.0.0-M4")
     testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")

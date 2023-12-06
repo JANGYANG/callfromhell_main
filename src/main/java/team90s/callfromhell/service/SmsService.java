@@ -2,9 +2,11 @@ package team90s.callfromhell.service;
 
 import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class SmsService {
 
@@ -32,6 +34,8 @@ public class SmsService {
 
 
     public Message sendSms(String phoneNumTo, String phoneNumFrom, String content){
+        log.info("sendSms is CALLED");
+
 
         Twilio.init(twilioUserName, twilioPw);
 
@@ -40,6 +44,8 @@ public class SmsService {
                         new com.twilio.type.PhoneNumber(phoneNumFrom),
                         content)
                 .create();
+
+        log.info("sms is SENT");
 
         return message;
     }

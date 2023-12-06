@@ -7,15 +7,21 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import team90s.callfromhell.dto.MemberDto;
+import team90s.callfromhell.dto.SmsDto;
 import team90s.callfromhell.service.MemberService;
+import team90s.callfromhell.service.SmsService;
 
 @Slf4j
-@RestController("member")
-@RequestMapping(path = "member")
-public class MemberController {
+@RestController("sms")
+@RequestMapping(path = "sms")
+public class SmsController {
 
     @Autowired
     MemberService memberService;
+
+    @Autowired
+    SmsService smsService;
+
 
     @PostMapping(name="test",path = "test")
     public String test(){
@@ -23,11 +29,12 @@ public class MemberController {
         return "YAHO";
     }
 
-    @PostMapping(name="join",path = "join")
-    public String joinMember(@RequestBody MemberDto memberDto){
-        log.info("registerMember Test");
-        memberService.createMemeber(memberDto.getFirstNm(), memberDto.getLastNm(), memberDto.getPhoneNm());
+    @PostMapping(name="send",path = "send")
+    public String sendSms(@RequestBody SmsDto smsDto){
+
+        smsService.sendSms(smsDto.getPhoneNum(), "CONTENT");
         return "registerMember";
+
     }
 
 
