@@ -44,11 +44,11 @@ public class ActiveMqService {
         // queueName(Sample-queue) 에 메세지 전송
 
         jmsTemplate.convertAndSend(queueName,messageDto, message -> {
-        //message.setLongProperty(ScheduledMessage.AMQ_SCHEDULED_DELAY, 1000 * 60 * 5);
-            message.setLongProperty(ScheduledMessage.AMQ_SCHEDULED_DELAY, 1000 * 30);
-        //message.setIntProperty(ScheduledMessage.AMQ_SCHEDULED_DELAY, 1000 * 60 * 5);
-            log.info("delay property : [{}]",message.getLongProperty(ScheduledMessage.AMQ_SCHEDULED_DELAY));
-        return message;
+
+            message.setLongProperty(ScheduledMessage.AMQ_SCHEDULED_DELAY, delayTime);
+
+            return message;
+
         });
 
     }
