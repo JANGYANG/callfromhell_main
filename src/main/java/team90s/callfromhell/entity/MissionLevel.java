@@ -24,7 +24,10 @@ public class MissionLevel {
     private Long missionLevelId;
 
     @Column
-    private String missionLevel;
+    private String missionLevelEng;
+
+    @Column
+    private String missionLevelKor;
 
     @Column
     @CreationTimestamp

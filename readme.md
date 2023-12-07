@@ -80,3 +80,25 @@
 }
 ```
 
+
+> misstion type
+```
+INSERT
+INTO mission_type (mission_type_id, mission_type_eng, mission_type_kor)
+VALUES
+(1,'quiz', '문장 따라쓰기' ),
+(2,'photo', '사진찍기' ),
+(3,'shake', '흔들기' ),
+(4,'pattern', '패턴 맞추기' ),
+(5,'rockScissorPaper', '가위바위보' );
+```
+
+> misstion level
+```
+INSERT
+INTO mission_level (mission_level_id, mission_level)
+VALUES
+(1,'easy'),
+(2,'normal'),
+(3,'hard');
+```
