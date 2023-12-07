@@ -1,5 +1,6 @@
 package team90s.callfromhell.controller;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import team90s.callfromhell.dto.MemberDto;
 import team90s.callfromhell.dto.ResponseDto;
 import team90s.callfromhell.service.MemberService;
+import team90s.callfromhell.service.SmsService;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -57,7 +59,7 @@ public class MemberController {
 
             responseDto.setSuccessYn(true);
             responseDto.setMessage(randomNum.toString());
-            
+
         }catch (Exception e){
             log.error("{}",e);
             responseDto.setMessage("GetRandomNum Failed");
