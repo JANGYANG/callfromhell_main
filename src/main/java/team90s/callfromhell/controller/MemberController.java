@@ -7,15 +7,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import team90s.callfromhell.dto.MemberDto;
+import team90s.callfromhell.dto.ResponseDto;
 import team90s.callfromhell.service.MemberService;
 
 @Slf4j
+@RequiredArgsConstructor
 @RestController("member")
 @RequestMapping(path = "member")
 public class MemberController {
 
-    @Autowired
-    MemberService memberService;
+    
+    private final MemberService memberService;
+    private final SmsService smsService;
 
     @PostMapping(name="test",path = "test")
     public String test(){
@@ -24,12 +27,41 @@ public class MemberController {
     }
 
     @PostMapping(name="join",path = "join")
-    public String joinMember(@RequestBody MemberDto memberDto){
+    public ResponseDto joinMember(@RequestBody MemberDto memberDto){
         log.info("registerMember Test");
-        memberService.createMemeber(memberDto.getFirstNm(), memberDto.getLastNm(), memberDto.getPhoneNm());
-        return "registerMember";
+        ResponseDto responseDto = ResponseDto.builder().successYn(false).build();
+
+        try {
+            memberService.createMemeber(memberDto.getFirstNm(), memberDto.getLastNm(), memberDto.getPhoneNm());
+            responseDto.setSuccessYn(true);
+        }catch (Exception e){
+            log.error("{}",e);
+            responseDto.setMessage("Member Join Failed");
+        }
+
+        return responseDto;
     }
 
+    @PostMapping(name="getRandomNum",path = "getRandomNum")
+    public ResponseDto getRandomNum(@RequestBody MemberDto memberDto){
+        log.info("registerMember Test");
+        ResponseDto responseDto = ResponseDto.builder().successYn(false).build();
+
+        try {
+
+            double min = 100000;
+            double max = 999999;
+            
+
+            smsService.sendSms(memberDto.getPhoneNm(), String.format("[%d]",(int) ((Math.random() * (max - min)) + min)));
+            responseDto.setSuccessYn(true);
+        }catch (Exception e){
+            log.error("{}",e);
+            responseDto.setMessage("GetRandomNum Failed");
+        }
+
+        return responseDto;
+    }
 
 
 }
