@@ -51,10 +51,13 @@ public class MemberController {
 
             double min = 100000;
             double max = 999999;
-            
+            Integer randomNum = (int) ((Math.random() * (max - min)) + min);
 
-            smsService.sendSms(memberDto.getPhoneNm(), String.format("[%d]",(int) ((Math.random() * (max - min)) + min)));
+            smsService.sendSms(memberDto.getPhoneNm(), String.format("[%d]", randomNum));
+
             responseDto.setSuccessYn(true);
+            responseDto.setMessage(randomNum.toString());
+            
         }catch (Exception e){
             log.error("{}",e);
             responseDto.setMessage("GetRandomNum Failed");
