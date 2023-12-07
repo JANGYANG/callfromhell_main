@@ -12,7 +12,7 @@
 }
 ```
 
-> 요청
+> 응답
 ```
 {
     "successYn" : True,
@@ -20,7 +20,7 @@
 }
 ```
 
-## /member/join
+## /member/getRandomNum
 
 > 요청
 ```json
@@ -32,7 +32,7 @@
 }
 ```
 
-> 요청
+> 응답
 ```
 {
     "successYn" : True,          //
@@ -52,7 +52,7 @@
 }
 ```
 
-> 요청
+> 응답
 ```
 {
     "successYn" : True    
@@ -72,7 +72,7 @@
 }
 ```
 
-> 요청
+> 응답
 ```
 {
     "successYn" : True    
