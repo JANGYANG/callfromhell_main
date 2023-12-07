@@ -18,16 +18,11 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Entity
 @Builder
-public class Mission {
+public class MissionLevel {
 
     @Id
-    @GeneratedValue
-    private Long missionId;
+    private Long missionLevelId;
 
-    @Column
-    private String missionTypeEng;
-    @Column
-    private String missionTypeKor;
     @Column
     private String missionLevel;
 
@@ -38,5 +33,4 @@ public class Mission {
     @Column
     @UpdateTimestamp
     private LocalDateTime updateTime;
-
 }
