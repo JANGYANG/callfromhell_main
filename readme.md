@@ -73,16 +73,84 @@
 ```
 
 > 응답
-```
+```json
 {
-    "successYn" : True    
+    "successYn" : True,    
     "message"   : ""      
 }
 ```
 
+## /mission/getAllMissionType
 
-> misstion type
+> 요청
+```json
+// HTTP GET
 ```
+
+> 응답
+```json
+[
+    {
+        "missionTypeId": 1,
+        "missionTypeEng": "quiz",
+        "missionTypeKor": "문장 따라쓰기"
+    },
+    {
+        "missionTypeId": 2,
+        "missionTypeEng": "photo",
+        "missionTypeKor": "사진찍기"
+    },
+    {
+        "missionTypeId": 3,
+        "missionTypeEng": "shake",
+        "missionTypeKor": "흔들기"
+    },
+    {
+        "missionTypeId": 4,
+        "missionTypeEng": "pattern",
+        "missionTypeKor": "패턴 맞추기"
+    },
+    {
+        "missionTypeId": 5,
+        "missionTypeEng": "rockScissorPaper",
+        "missionTypeKor": "가위바위보"
+    }
+]
+```
+
+## /mission/getAllMissionLevel
+
+> 요청
+```json
+// HTTP GET
+```
+
+> 응답
+```json
+[
+    {
+        "missionLevelId": 1,
+        "missionLevelEng": "easy",
+        "missionLevelKor": "초급"
+    },
+    {
+        "missionLevelId": 2,
+        "missionLevelEng": "normal",
+        "missionLevelKor": "중급"
+    },
+    {
+        "missionLevelId": 3,
+        "missionLevelEng": "hard",
+        "missionLevelKor": "상급"
+    }
+]
+```
+
+
+
+## QUERY
+> misstion type
+```sql
 INSERT
 INTO mission_type (mission_type_id, mission_type_eng, mission_type_kor)
 VALUES
@@ -94,7 +162,7 @@ VALUES
 ```
 
 > misstion level
-```
+```sql
 INSERT
 INTO mission_level (mission_level_id, mission_level)
 VALUES

@@ -1,4 +1,4 @@
-package team90s.callfromhell.entity;
+package team90s.callfromhell.dto;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,32 +10,31 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import team90s.callfromhell.entity.MissionType;
 
 import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 @Builder
-public class MissionType {
+public class MissionTypeDto {
 
-    @Id
-    @GeneratedValue
     private Long missionTypeId;
 
-    @Column
     private String missionTypeEng;
 
-    @Column
     private String missionTypeKor;
 
-    @Column
-    @CreationTimestamp
-    private LocalDateTime createdTime;
 
-    @Column
-    @UpdateTimestamp
-    private LocalDateTime updateTime;
+    public MissionTypeDto(MissionType missionType){
+
+        this.missionTypeId = missionType.getMissionTypeId();
+
+        this.missionTypeEng = missionType.getMissionTypeEng();
+
+        this.missionTypeKor = missionType.getMissionTypeKor();
+
+    }
 
 }
