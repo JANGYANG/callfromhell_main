@@ -146,6 +146,90 @@
 ]
 ```
 
+## /soul/getTotalSoulCount
+
+> 요청
+```json
+{
+  "memberId": 1234
+}
+```
+
+> 응답
+```json
+{
+  "totalSoulCount": 5
+}
+```
+
+## /soul/getSoulHistory
+
+> 요청
+```json
+{
+  "memberId": 1234
+}
+```
+
+> 응답
+```json
+[
+  {
+    "soulHistoryId": 52,
+    "memberId": 1234,
+    "plusYn": true,
+    "count": 10,
+    "status": true,
+    "createdTime": "2023-12-11T17:10:37.622739",
+    "updateTime": "2023-12-11T17:10:37.62285"
+  },
+  {
+    "soulHistoryId": 53,
+    "memberId": 1234,
+    "plusYn": false,
+    "count": 5,
+    "status": true,
+    "createdTime": "2023-12-11T17:10:43.801789",
+    "updateTime": "2023-12-11T17:10:43.801814"
+  }
+]
+```
+
+## /soul/plusSoul
+
+> 요청
+```json
+{
+  "memberId": 1234,
+  "soulCount" : 10
+}
+```
+
+> 응답
+```json
+{
+  "successYn": true,
+  "message": null
+}
+```
+
+## /soul/minusSoul
+
+> 요청
+```json
+{
+  "memberId": 1234,
+  "soulCount" : 5
+}
+```
+
+> 응답
+```json
+{
+  "successYn": true,
+  "message": null
+}
+```
 
 
 ## QUERY
