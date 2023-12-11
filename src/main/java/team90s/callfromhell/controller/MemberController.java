@@ -2,7 +2,6 @@ package team90s.callfromhell.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,7 +33,7 @@ public class MemberController {
         ResponseDto responseDto = ResponseDto.builder().successYn(false).build();
 
         try {
-            memberService.createMemeber(memberDto.getFirstNm(), memberDto.getLastNm(), memberDto.getPhoneNm());
+            memberService.createMemeber(memberDto.getFirstNm(), memberDto.getLastNm(), memberDto.getPhoneNum());
             responseDto.setSuccessYn(true);
         }catch (Exception e){
             log.error("{}",e);
@@ -55,7 +54,7 @@ public class MemberController {
             double max = 999999;
             Integer randomNum = (int) ((Math.random() * (max - min)) + min);
 
-            smsService.sendSms(memberDto.getPhoneNm(), String.format("[%d]", randomNum));
+            smsService.sendSms(memberDto.getPhoneNum(), String.format("[%d]", randomNum));
 
             responseDto.setSuccessYn(true);
             responseDto.setMessage(randomNum.toString());

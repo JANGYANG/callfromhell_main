@@ -63,7 +63,8 @@ public class WakeUpController {
             wakeupService.wakeupEnd(wakeupDto);
             responseDto.setSuccessYn(true);
         }catch (Exception e){
-            responseDto.setMessage("WakeupStart failed");
+            log.error("{}",e);
+            responseDto.setMessage("WakeupEnd failed");
         }
 
         return responseDto;

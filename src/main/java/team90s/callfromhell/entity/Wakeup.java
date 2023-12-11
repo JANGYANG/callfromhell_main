@@ -20,7 +20,11 @@ import java.time.LocalTime;
 public class Wakeup {
 
     @Id
-    private String wakeupId;
+    @GeneratedValue
+    private Long wakeupId;
+
+    @Column
+    private String wakeupKey;
 
     @ManyToOne
     @JoinColumn(name="memberId")

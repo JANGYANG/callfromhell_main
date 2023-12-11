@@ -14,6 +14,7 @@ import team90s.callfromhell.entity.Wakeup;
 import team90s.callfromhell.repository.MemberRepository;
 import team90s.callfromhell.repository.WakeupRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -32,15 +33,21 @@ public class WakeupService {
     public void wakeupStart(WakeupDto wakeupDto){
         log.info("wakeupStart CALLED");
 
-        Wakeup wakeup = Wakeup.builder()
-                .wakeupId(wakeupDto.getWakeupId())
-                .wakeupTime(wakeupDto.getWakeupTime())
-                .member(memberRepository.getReferenceById(wakeupDto.getMemberId()))
-                .phoneNumTo(wakeupDto.getPhoneNmTo())
-                .build();
+        for(String phoneNum : wakeupDto.getPhoneNmTo()){
 
-        wakeupRepository.save(wakeup);
-        log.info("DB SAVED {}", wakeup);
+            Wakeup wakeup = Wakeup.builder()
+                    .wakeupKey(wakeupDto.getWakeupKey())
+                    .wakeupTime(wakeupDto.getWakeupTime())
+                    .member(memberRepository.getReferenceById(wakeupDto.getMemberId()))
+                    .phoneNumTo(phoneNum)
+                    .build();
+
+            wakeupRepository.save(wakeup);
+            log.info("DB SAVED {}", wakeup);
+        }
+
+
+
 
         activeMqService.sendWakeup(wakeupDto);
         log.info("Queue Sent {}", wakeupDto);
@@ -50,16 +57,11 @@ public class WakeupService {
     public void wakeupEnd(WakeupDto wakeupDto){
         log.info("wakeupEnd CALLED");
 
-        Optional<Wakeup> wakeupSearchResult = wakeupRepository.findById(wakeupDto.getWakeupId());
+        List<Wakeup> wakeupSearchResults = wakeupRepository.findAllByWakeupKey(wakeupDto.getWakeupKey());
 
-        if(wakeupSearchResult.isPresent()){
-
-            Wakeup wakeup = wakeupSearchResult.get();
+        for(Wakeup wakeup : wakeupSearchResults){
             wakeup.setSuccessYn(true);
             wakeupRepository.save(wakeup);
-
-        }else{
-            wakeupRepository.save(Wakeup.builder().wakeupId(wakeupDto.getWakeupId()).successYn(true).phoneNumTo(wakeupDto.getPhoneNmTo()).member(memberRepository.getReferenceById(wakeupDto.getMemberId())).build());
         }
 
     }
@@ -73,21 +75,21 @@ public class WakeupService {
 
     public void checkWakeupSuccess(WakeupDto wakeupDto){
 
-        Optional<Wakeup> searchResult = wakeupRepository.findById(wakeupDto.getWakeupId());
+        List<Wakeup> wakeupSearchResults = wakeupRepository.findAllByWakeupKey(wakeupDto.getWakeupKey());
 
-        if(searchResult.isPresent() && searchResult.get().getSuccessYn()){
+        for(Wakeup wakeup : wakeupSearchResults){
+            if(wakeup.getSuccessYn()){
+                log.info("Mission Success. SMS is not sent. Data is [{}]", wakeupDto);
+            }else{
+                log.info("Mission Failed. SMS will be sent. Data is [{}]", wakeupDto);
 
-            log.info("Mission Success. SMS is not sent. Data is [{}]", wakeupDto);
+                Member member = memberService.getMemberById(wakeupDto.getMemberId());
 
-        }else{
-            log.info("Mission Failed. SMS will be sent. Data is [{}]", wakeupDto);
+                String content = String.format("This is from %s %s. Wakeup Time is %s",member.getLastNm(), member.getFirstNm(), wakeupDto.getWakeupTime().toString());
 
-            Member member = memberService.getMemberById(wakeupDto.getMemberId());
-
-            String content = String.format("This is from %s %s. Wakeup Time is %s",member.getLastNm(), member.getFirstNm(), wakeupDto.getWakeupTime().toString());
-
-            smsService.sendSms(wakeupDto.getPhoneNmTo(), content);
-            log.info("SMS is sent. Content is [{}]", content);
+                smsService.sendSms(wakeup.getPhoneNumTo(), content);
+                log.info("SMS is sent. Content is [{}]", content);
+            }
         }
     }
 

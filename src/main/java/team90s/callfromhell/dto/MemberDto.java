@@ -10,6 +10,6 @@ public class MemberDto {
     private String email;
     private String firstNm;
     private String lastNm;
-    private String phoneNm;
+    private String phoneNum;
 
 }

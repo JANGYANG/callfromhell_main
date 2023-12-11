@@ -8,19 +8,21 @@
     "email"     : "abcd1234@gmail.com",  // optional
     "firstNm"   : "이름",                 // Mandatory
     "lastNm"    : "KIM",                 // Mandatory
-    "phoneNm"   : "+821012345678"        // Mandatory, no - , +8210 형태
+    "phoneNum"   : "+821012345678"        // Mandatory, no - , +8210 형태
 }
 ```
 
 > 응답
-```
+```json
 {
-    "successYn" : True,
+    "successYn" : true,
     "message"   : ""
 }
 ```
 
 ## /member/getRandomNum
+
+회원가입 과정에서 핸드폰 인증에 필요. message 안에 있는 6자리가 phoneNum으로 보내짐.
 
 > 요청
 ```json
@@ -28,14 +30,14 @@
     "email"     : "abcd1234@gmail.com",  // optional
     "firstNm"   : "이름",                 // Mandatory
     "lastNm"    : "KIM",                 // Mandatory
-    "phoneNm"   : "+821012345678"        // Mandatory, no - , +8210 형태
+    "phoneNum"   : "+821012345678"        // Mandatory, no - , +8210 형태
 }
 ```
 
 > 응답
-```
+```json
 {
-    "successYn" : True,          //
+    "successYn" : true,          
     "message"   : "123456"       // 6자리 난수 생성
 }
 ```
@@ -45,17 +47,17 @@
 > 요청
 ```json
 {
-    "memberId"  : 1234,                     // 유저 Id
-    "wakeupId"  : "1234202312240001",       // 프론트에서 생성한 난수 ex. {userId}{yyyMMdd}{RandomNum}
-    "wakeupTime": "2023-12-31T09:00:12",    // 알람 시간
-    "phoneNmTo" : ["+821012345678","+821012345678"]           // 문자 받는 사람 번호
+  "memberId"  : 1234,
+  "wakeupKey"  : "1234202312240005", // FRONT 에서 생성
+  "wakeupTime": "2023-12-31 09:00",
+  "phoneNmTo" : ["+821095233114","+821095233114"]
 }
 ```
 
 > 응답
-```
+```json
 {
-    "successYn" : True    
+    "successYn" : true,    
     "message"   : ""      
 }
 ```
@@ -65,17 +67,15 @@
 > 요청
 ```json
 {
-    "memberId"  : 1234,                     // 유저 Id
-    "wakeupId"  : "1234202312240001",       // 프론트에서 생성한 난수 ex. {userId}{yyyMMdd}{RandomNum}
-    "wakeupTime": "2023-12-31T09:00:12",    // 알람 시간
-    "phoneNmTo" : "+821012345678"           // 문자 받는 사람 번호
+  "memberId"  : 1234,
+  "wakeupKey"  : "1234202312240005"
 }
 ```
 
 > 응답
 ```json
 {
-    "successYn" : True,    
+    "successYn" : true,    
     "message"   : ""      
 }
 ```
@@ -180,8 +180,8 @@
     "plusYn": true,
     "count": 10,
     "status": true,
-    "createdTime": "2023-12-11T17:10:37.622739",
-    "updateTime": "2023-12-11T17:10:37.62285"
+    "createdTime": "2023-12-11 17:10:37",
+    "updateTime": "2023-12-11 17:10:37"
   },
   {
     "soulHistoryId": 53,
@@ -189,8 +189,8 @@
     "plusYn": false,
     "count": 5,
     "status": true,
-    "createdTime": "2023-12-11T17:10:43.801789",
-    "updateTime": "2023-12-11T17:10:43.801814"
+    "createdTime": "2023-12-11 17:10:43",
+    "updateTime": "2023-12-11 17:10:43"
   }
 ]
 ```
